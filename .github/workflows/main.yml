@@ -1,0 +1,6 @@
+- uses: jfrog/setup-jfrog-cli@v4
+    env:
+        JF_URL: ${{ARTIFACTORY_URL}} 
+    with:
+        oidc-provider-name: github 
+        
