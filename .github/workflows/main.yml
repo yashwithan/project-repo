@@ -1,7 +1,7 @@
 - uses: jfrog/setup-jfrog-cli@v4
     env:
-        JF_URL: ${{ARTIFACTORY_URL}} 
+        JF_URL: ${{http://mill.jfrog.info:32857}} 
     with:
         oidc-provider-name: github 
 permissions:
-  id-token: write # This is required for requesting the JWT
+  id-token: write 
