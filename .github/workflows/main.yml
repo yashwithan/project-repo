@@ -3,4 +3,5 @@
         JF_URL: ${{ARTIFACTORY_URL}} 
     with:
         oidc-provider-name: github 
-        
+permissions:
+  id-token: write # This is required for requesting the JWT
