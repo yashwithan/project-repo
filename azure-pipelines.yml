@@ -1,0 +1,110 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#trigger:
+#- main
+
+# #pool:
+#   vmImage: ubuntu-latest
+
+# steps:
+# - script: echo Hello, world!
+#   displayName: 'Run a one-line script'
+
+# - script: |
+#     echo Add other tasks to build, test, and deploy your project.
+#     echo See https://aka.ms/yaml
+#   displayName: 'Run a multi-line script'
+variables:
+- group: cran
+- name: jfrog_cli_temp_dir
+  value: $(Pipeline.Workspace)/jfrog-tmp
+parameters:
+- name: artifactoryServiceConnection
+  type: string
+  default: sample-pipeline-service-v2
+- name: artifactoryPlatformOIDCServiceConnection
+  type: string
+  default: sample-platform-oidc-v2
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    steps:
+    - task: PowerShell@2
+      displayName: Create JFROG_CLI_TEMP_DIR for newer versions of the JFrog CLI (>=1.39.5) as work around for error when it can not find the temp directory.
+      inputs:
+        targetType: inline
+        script: "\nif (!(Test-Path $(jfrog_cli_temp_dir)))\n{\n  if($PSVersionTable.PSVersion.Major -eq '7'){\n    mkdir -p $(jfrog_cli_temp_dir)\n  } else {\n    mkdir -Path $(jfrog_cli_temp_dir)\n  }          \n}\n\nWrite-Host \"$(jfrog_cli_temp_dir) now confirmed to exist\""
+    - task: JFrogToolsInstaller@1
+      inputs:
+        artifactoryConnection: sample-pipeline-service-v2
+        cliInstallationRepo: jfrog-cli-v2
+        installCustomVersion: true
+        cliVersion: 2.77.0
+      displayName: Install JFrog CLI v2.77.0
+    - task: PowerShell@2
+      displayName: Install curl dev tools
+      inputs:
+        targetType: inline
+        script: sudo apt update && sudo apt-get -y install libcurl4-openssl-dev r-base-core
+        pwsh: true
+    - task: PowerShell@2
+      displayName: Allow installation to hosts R library
+      inputs:
+        targetType: inline
+        script: sudo chmod -R 777 /usr/local/lib/R
+        pwsh: true
+    - task: JfrogCliV2@1
+      name: jfStep
+      displayName: Obtain OIDC token
+      inputs:
+        jfrogPlatformConnection: sample-platform-oidc-v2
+        command: jf rt ping
+    - task: PowerShell@2
+      displayName: Show OIDC details
+      inputs:
+        targetType: inline
+        script: |
+          echo "OIDC Username: $($jfStep.oidc_user)"
+          echo "OIDC Token: $env:oidc_token"
+        pwsh: true
+    - task: PowerShell@2
+      displayName: Create CRAN download script
+      inputs:
+        targetType: inline
+        script: |
+          $rscript = @'
+            #!/usr/bin/env Rscript
+
+            local(
+              {
+                r <- list("cran-remote" = "http://localhos:8081/artifactory/cran-remote/")
+                options(repos = r)
+              }
+            )
+
+            install.packages("ps", headers = c("X-JFrog-Art-Api" = "$env:oidc_token"))
+            quit(status=0)
+          '@
+
+          Set-Content -Path './install_from_cran_remote.r' -Value $rscript
+        pwsh: true
+    - task: PowerShell@2
+      displayName: Install from CRAN remote
+      continueOnError: true
+      inputs:
+        targetType: inline
+        script: |
+          Write-Output "install ps from cran remote"
+          Rscript ./install_from_cran_remote.r
+          Write-Output "Installing done"
+        pwsh: true
+    - task: CmdLine@2
+      displayName: Show R site-library
+      inputs:
+        script: |
+          echo /usr/local/lib/R/site-library
+          ls -al /usr/local/lib/R/site-library
