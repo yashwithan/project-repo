@@ -2,6 +2,7 @@
     env:
         JF_URL: ${{http://mill.jfrog.info:32962}} 
     with:
-        oidc-provider-name: github 
-permissions:
-  id-token: write 
+        oidc-provider-name: yashwithan 
+
+        
+
