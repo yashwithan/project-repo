@@ -1,8 +1,9 @@
 - uses: jfrog/setup-jfrog-cli@v4
     env:
-        JF_URL: ${{http://mill.jfrog.info:32962}} 
+        JF_URL: ${{https://mill.jfrog.info:12042}} 
     with:
-        oidc-provider-name: yashwithan 
+        oidc-provider-name: github 
+        
 
         
 
