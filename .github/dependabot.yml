@@ -5,7 +5,7 @@
 
 version: 2
 registries:
-  Artifactory:
+  test-npm:
     type: npm-registry
     url: https://mill.jfrog.info:12191/artifactory/api/npm/test-npm
     token: ${{secrets.TOKEN}} 
