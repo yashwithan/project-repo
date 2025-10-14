@@ -6,7 +6,7 @@ registries:
   Artifactory:
     type: npm-registry
     url: https://mill.jfrog.info:12191/artifactory/api/npm/npm-npm
-    token: ${{secrets.token}} 
+    token: ${{secrets.TOKEN}} 
 updates:
   - package-ecosystem: "npm"
     directory: "/"
