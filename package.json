@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "react-scripts": "3.4.1" 
-    /* The react-scripts version may need adjustment based on your environment */
   }
 }
+
 
