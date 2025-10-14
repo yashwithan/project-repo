@@ -1,25 +1,17 @@
 {
-  "name": "yashwithan",
+  "name": "fontawesome-dependabot-sample",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
+  "private": true,
+  "description": "Sample project using @fortawesome/fontawesome-free with Dependabot",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo 'Run your app here'",
+    "build": "echo 'Build step here'"
   },
   "dependencies": {
-    "busybox": "^2019.8.21",
-    "colors": "^1.4.0",
-    "foobar": "^1.1.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "scheduler": "^0.27.0",
-    "react":"^16.8.0"
+    "@fortawesome/fontawesome-free": "^6.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^9.12.0"
+  }
 }
