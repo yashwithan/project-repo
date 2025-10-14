@@ -7,7 +7,7 @@ version: 2
 registries:
   Artifactory:
     type: npm-registry
-    url: https://mill.jfrog.info:12191/artifactory/api/npm/npm-npm
+    url: https://mill.jfrog.info:12191/artifactory/api/npm/npm-npm/
     token: ${{secrets.TOKEN}} 
 updates:
   # Enable version updates for npm
