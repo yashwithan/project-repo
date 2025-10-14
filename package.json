@@ -1,0 +1,27 @@
+{
+  "name": "yashwithan",
+  "version": "1.0.0",
+  "description": "demo",
+  "keywords": [
+    "hello!"
+  ],
+  "license": "ISC",
+  "author": "yashwithan",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "hello!"
+  },
+  "dependencies": {
+    "busybox": "^2019.8.21",
+    "colors": "^1.4.0",
+    "foobar": "^1.1.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "registry": "http://support-team-yashwithan-ldap.jfrog.farm:8081/artifactory/api/npm/npm-local/"
+  }
+}
