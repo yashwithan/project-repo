@@ -1,0 +1,16 @@
+# Basic `dependabot.yml` file with
+# minimum configuration for two package managers
+
+version: 2
+registries:
+  Artifactory:
+    type:npm-registry
+    url:https://mill.jfrog.info:12191/artifactory/api/npm/npm-npm
+    token:${{secrets.token}} 
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    registries:
+     - Artifactory
+    schedule:
+      interval: "daily"
