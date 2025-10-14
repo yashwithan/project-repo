@@ -7,8 +7,8 @@ version: 2
 registries:
   test-npm:
     type: npm-registry
-    url: https://hts2.jfrog.io/artifactory/api/npm/test-yashwithan/
-    token: ${{secrets.TOKEN}} 
+    url: https://hts2.jfrog.io/artifactory/api/npm/test-yashwithan
+    token: ${{secrets.JFROG_TOKEN}} 
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
